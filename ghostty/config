@@ -1,0 +1,8 @@
+theme = dark:catppuccin-mocha,light:catppuccin-latte
+font-family = MonaspiceNe Nerd Font Mono
+font-size = 16
+cursor-style = block
+shell-integration-features = no-cursor
+keybind = global:cmd+grave_accent=toggle_quick_terminal
+quick-terminal-animation-duration = 0.1
+quick-terminal-position = center
