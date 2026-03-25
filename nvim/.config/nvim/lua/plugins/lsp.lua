@@ -7,9 +7,20 @@ local lsps = {
 
 local function onLsp(ev)
   local client = vim.lsp.get_client_by_id(ev.data.client_id)
+  local buf = ev.buf
+  local map = function(keys, fn, desc)
+    vim.keymap.set('n', keys, fn, { buffer = buf, desc = desc })
+  end
+
+  map('gd', vim.lsp.buf.definition, "Go to definition")
+  map('gy', vim.lsp.buf.type_definition, "Go to type definition")
+  map('gi', vim.lsp.buf.implementation, "Go to implementation")
+  map('gr', vim.lsp.buf.references, "Go to references")
+  map('K', vim.lsp.buf.hover, "Hover docs")
+
   if client:supports_method('textDocument/completion') then
     vim.opt.completeopt = { 'menu', 'menuone','noinsert','fuzzy','popup' }
-    vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+    vim.lsp.completion.enable(true, client.id, buf, { autotrigger = true })
     vim.keymap.set('i', '<C-Space>', function()
       vim.lsp.completion.get()
     end)
