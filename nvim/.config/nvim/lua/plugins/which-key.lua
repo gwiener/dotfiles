@@ -18,6 +18,7 @@ return {
     -- group labels for your existing leader keys
     spec = {
       { "<leader>f", group = "Find" },
+      { "<leader>l", group = "LSP" },
       { "<leader>t", group = "Tree" },
     },
   },

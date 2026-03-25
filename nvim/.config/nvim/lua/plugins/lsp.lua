@@ -17,6 +17,8 @@ local function onLsp(ev)
   map('gi', vim.lsp.buf.implementation, "Go to implementation")
   map('gr', vim.lsp.buf.references, "Go to references")
   map('K', vim.lsp.buf.hover, "Hover docs")
+  map('<leader>la', vim.lsp.buf.code_action, "Code action")
+  map('<leader>lr', vim.lsp.buf.rename, "Rename symbol")
 
   if client:supports_method('textDocument/completion') then
     vim.opt.completeopt = { 'menu', 'menuone','noinsert','fuzzy','popup' }
