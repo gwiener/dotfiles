@@ -20,18 +20,11 @@ local function onLsp(ev)
   map('<leader>la', vim.lsp.buf.code_action, "Code action")
   map('<leader>lr', vim.lsp.buf.rename, "Rename symbol")
 
-  if client:supports_method('textDocument/completion') then
-    vim.opt.completeopt = { 'menu', 'menuone','noinsert','fuzzy','popup' }
-    vim.lsp.completion.enable(true, client.id, buf, { autotrigger = true })
-    vim.keymap.set('i', '<C-Space>', function()
-      vim.lsp.completion.get()
-    end)
-    vim.diagnostic.config({
-      virtual_lines = {
-        current_line = true
-      }
-    })
-  end
+  vim.diagnostic.config({
+    virtual_lines = {
+      current_line = true
+    }
+  })
 end
 
 return {
@@ -45,13 +38,16 @@ return {
     },
     {
       "neovim/nvim-lspconfig",
+      dependencies = { "saghen/blink.cmp" },
       config = function()
         vim.api.nvim_create_autocmd('LspAttach', {
           callback = onLsp
         })
         local lspconfig = require("lspconfig")
         local util = require("lspconfig.util")
+        local capabilities = require("blink.cmp").get_lsp_capabilities()
         lspconfig.lua_ls.setup({
+          capabilities = capabilities,
           settings = {
             Lua = {
               diagnostics = {
@@ -60,14 +56,42 @@ return {
             }
           },
         })
-        lspconfig.pyright.setup({})
+        lspconfig.pyright.setup({
+          capabilities = capabilities,
+          root_dir = function(fname)
+            local pyproject = util.root_pattern("pyproject.toml")(fname)
+            local git_root = util.root_pattern(".git")(fname)
+            if git_root and pyproject and git_root ~= pyproject then
+              local root_pyproject = git_root .. "/pyproject.toml"
+              local f = io.open(root_pyproject, "r")
+              if f then
+                local content = f:read("*a")
+                f:close()
+                if content:find("uv.workspace") then
+                  return git_root
+                end
+              end
+            end
+            return pyproject
+          end,
+          on_new_config = function(config, root_dir)
+            local venv_python = root_dir .. "/.venv/bin/python"
+            if vim.uv.fs_stat(venv_python) then
+              config.settings = vim.tbl_deep_extend("force", config.settings or {}, {
+                python = { pythonPath = venv_python }
+              })
+            end
+          end,
+        })
         lspconfig.denols.setup({
+          capabilities = capabilities,
           root_markers = {"deno.json", "deno.jsonc"},
           root_dir = util.root_pattern("deno.json", "deno.jsonc"),
           init_options = true,
           lint = true
         })
         lspconfig.ts_ls.setup({
+          capabilities = capabilities,
           root_dir = function (filename, bufnr)
             local denoRootDir = lspconfig.util.root_pattern("deno.json", "deno.json")(filename);
             if denoRootDir then
