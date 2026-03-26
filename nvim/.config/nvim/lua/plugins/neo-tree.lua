@@ -17,7 +17,7 @@ return {
       }
     }
   },
-  config = function()
-    vim.keymap.set('n', '<leader>tf', ':Neotree filesystem reveal left<CR>')
-  end
+  keys = {
+    { '<leader>tf', ':Neotree filesystem reveal left<CR>', desc = "File tree" },
+  }
 }
