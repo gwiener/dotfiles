@@ -1,3 +1,4 @@
-# Guy Wiener's Mac configuration
+# Life on the Terminal
 
-Personal reproducible computer configuration based installing apps with Nix-Darwin and stowing links to `.config`
+Personal reproducible Terminal configuration
+Run `stow` to install on home dir.
