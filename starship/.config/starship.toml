@@ -1,0 +1,30 @@
+add_newline = false
+format = """
+$directory\
+$character"""
+right_format = """
+$git_branch\
+$python\
+$nodejs\
+$deno\
+$lua"""
+command_timeout = 1000
+
+[package]
+disabled = true
+
+[deno]
+format = "[$symbol]($style)"
+
+[nodejs]
+format = "[$symbol]($style)"
+
+[git_branch]
+format = "[$symbol$branch(:$remote_branch)]($style) "
+
+[python]
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+version_format = 'v${major}.${minor}'
+
+[lua]
+format = "[$symbol]($style)"
