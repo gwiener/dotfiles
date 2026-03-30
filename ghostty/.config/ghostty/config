@@ -1,7 +1,8 @@
 theme = light:GitHub Light Default,dark:GitHub Dark Default
 cursor-style = block
-# shell-integration-features = no-cursor
-# adjust-cursor-thickness = 5
+cursor-style-blink = false
+shell-integration-features = no-cursor
+adjust-cursor-thickness = 2
 # font-family = "Monaspace Neon Medium"
 font-family = "JetBrains Mono"
 font-size = 14

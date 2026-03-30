@@ -31,6 +31,6 @@ vim.opt.cursorline = true
 -- Keep 10 lines visible above and below the cursor when scrolling
 vim.opt.scrolloff = 10
 vim.opt.clipboard = "unnamedplus"
-vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
+vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25-InsertCursor,r-cr-o:hor20"
 vim.keymap.set('n', '<M-/>', ':nohlsearch<CR>')
 
