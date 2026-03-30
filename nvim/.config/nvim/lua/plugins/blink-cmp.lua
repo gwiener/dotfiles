@@ -1,3 +1,7 @@
+local function is_prose()
+  return vim.tbl_contains({ "markdown", "text", "gitcommit" }, vim.bo.filetype)
+end
+
 return {
   "saghen/blink.cmp",
   version = "1.*",
@@ -23,7 +27,10 @@ return {
         auto_show_delay_ms = 200,
       },
       ghost_text = {
-        enabled = true,
+        enabled = function() return not is_prose() end,
+      },
+      menu = {
+        auto_show = function() return not is_prose() end,
       },
       list = {
         selection = {
