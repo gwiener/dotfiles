@@ -9,7 +9,9 @@ return {
   },
   lazy = false,
   opts = {
+    close_if_last_window = true,
     filesystem = {
+      follow_current_file = { enabled = true },
       window = {
         mappings = {
           [","] = "toggle_node"
