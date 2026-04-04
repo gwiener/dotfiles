@@ -14,3 +14,4 @@ tw() {
   task $(prjt) "$@";
 }
 compdef tw=task
+alias tt=taskwarrior-tui
