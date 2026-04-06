@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+"""TaskWarrior on-add hook: auto-apply domain tag based on project."""
+
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+DOMAIN_TAGS = (Path(__file__).parent / "domains.conf").read_text().splitlines()
+
+
+def main():
+    task = json.loads(sys.stdin.readline())
+
+    project = task.get("project")
+    if not project:
+        print(json.dumps(task))
+        return
+
+    existing_tags = set(task.get("tags", []))
+    if existing_tags & set(DOMAIN_TAGS):
+        print(json.dumps(task))
+        return
+
+    result = subprocess.run(
+        ["task", f"project:{project}", "export"],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        print(json.dumps(task))
+        return
+
+    project_tasks = json.loads(result.stdout)
+    found_domains: set[str] = set()
+    for t in project_tasks:
+        tags = set(t.get("tags", []))
+        found_domains.update(tags & set(DOMAIN_TAGS))
+
+    if len(found_domains) == 1:
+        tag = found_domains.pop()
+        task.setdefault("tags", []).append(tag)
+
+    print(json.dumps(task))
+
+
+if __name__ == "__main__":
+    main()

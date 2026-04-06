@@ -1,0 +1,69 @@
+#!/usr/bin/env python3
+"""TaskWarrior on-modify hook: auto-apply domain tag when project changes."""
+
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+DOMAIN_TAGS = (Path(__file__).parent / "domains.conf").read_text().splitlines()
+
+
+def main():
+    old_task = json.loads(sys.stdin.readline())
+    new_task = json.loads(sys.stdin.readline())
+
+    old_project = old_task.get("project")
+    new_project = new_task.get("project")
+
+    if old_project == new_project:
+        print(json.dumps(new_task))
+        return
+
+    if not new_project:
+        print(json.dumps(new_task))
+        return
+
+    domain_set = set(DOMAIN_TAGS)
+    new_tags = set(new_task.get("tags", []))
+    current_domains = new_tags & domain_set
+
+    # If the task has a domain tag that didn't match the old project's
+    # consensus, it was intentionally set — leave it alone.
+    if current_domains:
+        old_consensus = _project_domain(old_project) if old_project else None
+        if old_consensus is None or current_domains != {old_consensus}:
+            print(json.dumps(new_task))
+            return
+
+    # Strip old domain tags, apply new project's consensus if any.
+    new_tags -= domain_set
+    new_consensus = _project_domain(new_project)
+    if new_consensus:
+        new_tags.add(new_consensus)
+
+    new_task["tags"] = sorted(new_tags) if new_tags else []
+    print(json.dumps(new_task))
+
+
+def _project_domain(project: str) -> str | None:
+    """Return the unanimous domain tag for a project, or None."""
+    result = subprocess.run(
+        ["task", f"project:{project}", "export"],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        return None
+
+    domain_set = set(DOMAIN_TAGS)
+    found: set[str] = set()
+    for t in json.loads(result.stdout):
+        tags = set(t.get("tags", []))
+        found.update(tags & domain_set)
+
+    return found.pop() if len(found) == 1 else None
+
+
+if __name__ == "__main__":
+    main()
