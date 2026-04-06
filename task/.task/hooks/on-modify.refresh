@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS= read -r old_json
+IFS= read -r new_json
+printf '%s\n' "$new_json"
+touch "$HOME/.task/tw-refresh"

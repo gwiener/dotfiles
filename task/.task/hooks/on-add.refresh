@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+task_json="$(cat)"
+touch ~/.task/tw-refresh
+printf '%s\n' "$task_json"
