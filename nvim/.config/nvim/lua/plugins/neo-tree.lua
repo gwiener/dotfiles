@@ -9,6 +9,7 @@ return {
   },
   lazy = false,
   opts = {
+    sources = { "filesystem", "buffers", "git_status", "document_symbols" },
     close_if_last_window = true,
     filesystem = {
       follow_current_file = { enabled = true },

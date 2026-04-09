@@ -1,5 +1,5 @@
 local function is_prose()
-  return vim.tbl_contains({ "markdown", "text", "gitcommit" }, vim.bo.filetype)
+  return vim.tbl_contains({ "markdown", "text", "gitcommit", "task" }, vim.bo.filetype)
 end
 
 return {
