@@ -1,7 +1,3 @@
-local function is_prose()
-  return vim.tbl_contains({ "markdown", "text", "gitcommit", "task" }, vim.bo.filetype)
-end
-
 return {
   "saghen/blink.cmp",
   version = "1.*",
@@ -26,12 +22,6 @@ return {
         auto_show = true,
         auto_show_delay_ms = 200,
       },
-      ghost_text = {
-        enabled = function() return not is_prose() end,
-      },
-      menu = {
-        auto_show = function() return not is_prose() end,
-      },
       list = {
         selection = {
           preselect = true,
@@ -41,6 +31,12 @@ return {
     },
     sources = {
       default = { "lsp", "snippets", "path", "buffer" },
+      per_filetype = {
+        markdown = { "buffer"},
+        text= { "buffer" },
+        gitcommit = { "buffer" },
+        task = { "buffer" }
+      }
     },
     signature = {
       enabled = true,
