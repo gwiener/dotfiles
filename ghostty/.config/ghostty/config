@@ -13,7 +13,7 @@ unfocused-split-opacity = 0.85
 keybind = global:cmd+\=toggle_quick_terminal
 quick-terminal-position=center
 quick-terminal-animation-duration=0
-quick-terminal-size=30%
+quick-terminal-size=60%,60%
 keybind = shift+enter=text:\x1b\r
 grapheme-width-method = unicode
 keybind = cmd+ctrl+arrow_up=new_split:up
