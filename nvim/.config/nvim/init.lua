@@ -33,4 +33,6 @@ vim.opt.scrolloff = 10
 vim.opt.clipboard = "unnamedplus"
 vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25-InsertCursor,r-cr-o:hor20"
 vim.keymap.set('n', '<M-/>', ':nohlsearch<CR>')
-
+-- spelling
+vim.opt.spelllang = 'en_us'
+vim.opt.spell = true
