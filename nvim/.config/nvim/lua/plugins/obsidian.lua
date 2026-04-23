@@ -7,6 +7,7 @@ return {
   ---@module 'obsidian'
   ---@type obsidian.config
   opts = {
+    -- see https://github.com/obsidian-nvim/obsidian.nvim/blob/main/lua/obsidian/config/default.lua
     legacy_commands = false, -- this will be removed in the next major release
     workspaces = {
       {
@@ -14,5 +15,12 @@ return {
         path = "~/MIND/",
       },
     },
+    ui = {
+      hl_groups = {
+        ObsidianHighlightText = {
+          bg = "#bdaa68"
+        }
+      }
+    }
   },
 }
