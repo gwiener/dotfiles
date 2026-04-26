@@ -36,3 +36,7 @@ vim.keymap.set('n', '<M-/>', ':nohlsearch<CR>')
 -- spelling
 vim.opt.spelllang = 'en_us'
 vim.opt.spell = true
+
+-- window borders
+vim.opt.fillchars = { vert = "│", vertleft = "┤", vertright = "├", verthoriz = "┼", horiz = "─" }
+vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#888888", bold = true })

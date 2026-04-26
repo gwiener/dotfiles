@@ -17,6 +17,7 @@ return {
     show_keys = false,
     -- group labels for your existing leader keys
     spec = {
+      { "<leader>d", group = "Debug" },
       { "<leader>f", group = "Find" },
       { "<leader>l", group = "LSP" },
       { "<leader>t", group = "Tree" },
