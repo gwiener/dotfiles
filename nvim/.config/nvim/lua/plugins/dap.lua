@@ -10,6 +10,7 @@ return {
       "rcarriga/nvim-dap-ui",
       "mfussenegger/nvim-dap-python",
       "theHamsta/nvim-dap-virtual-text",
+      "nvimtools/hydra.nvim",
     },
     config = function()
       local dap = require("dap")
@@ -31,21 +32,52 @@ return {
       local map = function(keys, fn, desc)
         vim.keymap.set('n', keys, fn, { desc = desc })
       end
+      
+      local conditional = function()
+        dap.set_breakpoint(vim.fn.input("Condition: "))
+      end
+      
+      local test_method = require("dap-python").test_method
 
       map('<leader>dc', dap.continue,          "Debug: continue/start")
-      map('<leader>db', dap.toggle_breakpoint,  "Debug: toggle breakpoint")
-      map('<leader>dB', function()
-        dap.set_breakpoint(vim.fn.input("Condition: "))
-      end,                                      "Debug: conditional breakpoint")
-      map('<leader>do', dap.step_over,          "Debug: step over")
-      map('<leader>di', dap.step_into,          "Debug: step into")
-      map('<leader>dO', dap.step_out,           "Debug: step out")
-      map('<leader>dq', dap.terminate,          "Debug: terminate")
-      map('<leader>dr', dap.repl.open,          "Debug: REPL")
-      map('<leader>du', dapui.toggle,           "Debug: toggle UI")
-      map('<leader>dt', require("dap-python").test_method, "Debug: test method")
-      map('<leader>de', dapui.eval,                        "Debug: eval under cursor")
+      map('<leader>db', dap.toggle_breakpoint, "Debug: toggle breakpoint")
+      map('<leader>dB', conditional,           "Debug: conditional breakpoint")
+      map('<leader>do', dap.step_over,         "Debug: step over")
+      map('<leader>di', dap.step_into,         "Debug: step into")
+      map('<leader>dO', dap.step_out,          "Debug: step out")
+      map('<leader>dq', dap.terminate,         "Debug: terminate")
+      map('<leader>dr', dap.repl.open,         "Debug: REPL")
+      map('<leader>du', dapui.toggle,          "Debug: toggle UI")
+      map('<leader>dt', test_method,           "Debug: test method")
+      map('<leader>de', dapui.eval,            "Debug: eval under cursor")
       vim.keymap.set('v', '<leader>de', dapui.eval, { desc = "Debug: eval selection" })
+
+      require("hydra")({
+        name = "Debug",
+        hint = [[
+  _o_ step over   _i_ step into   _O_ step out
+  _c_ continue    _b_ breakpoint  _e_ eval
+  _u_ toggle UI   _q_ terminate
+        ]],
+        config = {
+          color = "pink",
+          invoke_on_body = true,
+          hint = { position = "bottom", float_opts = { border = "rounded" } },
+        },
+        mode = "n",
+        body = "<leader>dd",
+        heads = {
+          { "o", dap.step_over,         { desc = "step over" } },
+          { "i", dap.step_into,         { desc = "step into" } },
+          { "O", dap.step_out,          { desc = "step out" } },
+          { "c", dap.continue,          { desc = "continue" } },
+          { "b", dap.toggle_breakpoint, { desc = "breakpoint" } },
+          { "e", dapui.eval,            { desc = "eval" } },
+          { "u", dapui.toggle,          { desc = "toggle UI" } },
+          { "q", dap.terminate,         { exit = true, desc = "terminate" } },
+          { "<Esc>", nil,               { exit = true, desc = false } },
+        },
+      })
     end
   }
 }
