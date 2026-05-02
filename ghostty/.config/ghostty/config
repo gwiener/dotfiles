@@ -1,26 +1,56 @@
-theme = light:GitHub Light Default,dark:GitHub Dark Default
+# Cursor settings
 cursor-style = block
 cursor-style-blink = false
 # shell-integration-features = no-cursor
 adjust-cursor-thickness = 2
+
+# Appearance
+theme = light:GitHub Light Default,dark:GitHub Dark Default
 # font-family = "Monaspace Neon Medium"
 font-family = "JetBrains Mono"
 font-size = 14
-# set inherit to false to start each time at the home dir
-window-inherit-working-directory = true
+
+# Working directory policy:
+# 1. New window in home dir
+# 2. New tab in home dir
+# 3. New split inherit dir
+working-directory = home
+window-inherit-working-directory = false
+tab-inherit-working-directory = false
+split-inherit-working-directory = true
+
+# Mac tweaks
 macos-option-as-alt = true
-unfocused-split-opacity = 0.85
+
+# Quick terminal settings
 keybind = global:cmd+\=toggle_quick_terminal
 quick-terminal-position=center
 quick-terminal-animation-duration=0
 quick-terminal-size=60%,60%
+
+# Coding agents (aka Claude Code) tweaks
 keybind = shift+enter=text:\x1b\r
 grapheme-width-method = unicode
+
+# Splits and motions
+# opt+cmd+arrow bound by default to move between splits
 keybind = cmd+ctrl+arrow_up=new_split:up
 keybind = cmd+ctrl+arrow_down=new_split:down
 keybind = cmd+ctrl+arrow_left=new_split:left
 keybind = cmd+ctrl+arrow_right=new_split:right
+
+# Scrolling
 keybind = cmd+u=scroll_page_lines:-25
 keybind = cmd+d=scroll_page_lines:25
+
+# Resize
+# ctrl+cmd+= bound by default to equalize splits
+keybind = cmd+opt+ctrl+arrow_up=resize_split:up,10
+keybind = cmd+opt+ctrl+arrow_down=resize_split:down,10
+keybind = cmd+opt+ctrl+arrow_left=resize_split:left,10
+keybind = cmd+opt+ctrl+arrow_right=resize_split:right,10
+
+# Splits Appearance
 split-divider-color=gray
 unfocused-split-fill=gray
+unfocused-split-opacity = 0.85
