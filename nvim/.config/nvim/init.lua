@@ -36,6 +36,10 @@ vim.keymap.set('n', '<M-/>', ':nohlsearch<CR>')
 -- spelling
 vim.opt.spelllang = 'en_us'
 vim.opt.spell = true
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "lazy", "mason", "noice" },
+  callback = function() vim.opt_local.spell = false end,
+})
 
 -- window borders
 vim.opt.fillchars = { vert = "│", vertleft = "┤", vertright = "├", verthoriz = "┼", horiz = "─" }
