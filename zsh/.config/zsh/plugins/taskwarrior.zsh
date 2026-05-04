@@ -1,3 +1,14 @@
+# Sort IDs numerically descending; compadd -V prevents ZSH from re-sorting
+_task_ids() {
+local -a ids descs
+  local line
+  while IFS= read -r line; do
+    ids+=("${line%%:*}")
+    descs+=("$line")
+  done < <(task rc.hooks=0 _zshids | sort -t: -k1 -n -r)
+  compadd -V 'task ids' -d descs -- "${ids[@]}"
+}
+
 # Override _task_default to include ID completion (upstream has it commented out)
 _task_default() {
   local cmd ret=1
@@ -18,8 +29,8 @@ _task_default() {
     (( i++ ))
   done
 
-  _task_subcommands
   _task_ids
+  _task_subcommands
   _task_aliases
   _call_function ret _task_filter
 

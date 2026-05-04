@@ -12,5 +12,6 @@ zstyle ':completion:*' menu no
 source "/opt/homebrew/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh"
 zstyle ':fzf-tab:*' continuous-trigger '/'
 zstyle ':fzf-tab:*' switch-group ',' '.'
+zstyle ':completion:*:(task|tw):*' sort false
 
 eval "$(uv generate-shell-completion zsh)"
