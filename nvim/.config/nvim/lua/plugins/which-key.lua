@@ -21,6 +21,7 @@ return {
       { "<leader>f", group = "Find" },
       { "<leader>l", group = "LSP" },
       { "<leader>t", group = "Tree" },
+      { "<leader>z", desc  = "Zoom in/out" }
     },
   },
   keys = {
