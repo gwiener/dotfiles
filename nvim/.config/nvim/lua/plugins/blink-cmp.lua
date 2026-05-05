@@ -14,6 +14,13 @@ return {
       ["<C-f>"] = { "scroll_documentation_down", "fallback" },
       ["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
     },
+    cmdline = {
+      keymap = {
+        ["<Right>"] = { "accept", "fallback" },
+        ["<Tab>"] = { "select_next", "fallback" },
+        ["<S-Tab>"] = { "select_prev", "fallback" },
+      },
+    },
     appearance = {
       nerd_font_variant = "mono",
     },
