@@ -6,7 +6,6 @@ local lsps = {
 }
 
 local function onLsp(ev)
-  local client = vim.lsp.get_client_by_id(ev.data.client_id)
   local buf = ev.buf
   local map = function(keys, fn, desc)
     vim.keymap.set('n', keys, fn, { buffer = buf, desc = desc })
@@ -30,12 +29,7 @@ end
 return {
   {
     { "mason-org/mason.nvim", opts = {} },
-    { "mason-org/mason-lspconfig.nvim",
---      opts = {
---        ensure_installed = lsps,
---        automatic_installation = false
---      }
-    },
+    { "mason-org/mason-lspconfig.nvim" },
     {
       "neovim/nvim-lspconfig",
       dependencies = { "saghen/blink.cmp" },
@@ -43,10 +37,9 @@ return {
         vim.api.nvim_create_autocmd('LspAttach', {
           callback = onLsp
         })
-        local lspconfig = require("lspconfig")
-        local util = require("lspconfig.util")
         local capabilities = require("blink.cmp").get_lsp_capabilities()
-        lspconfig.lua_ls.setup({
+
+        vim.lsp.config('lua_ls', {
           capabilities = capabilities,
           settings = {
             Lua = {
@@ -56,11 +49,13 @@ return {
             }
           },
         })
-        lspconfig.pyright.setup({
+
+        vim.lsp.config('pyright', {
           capabilities = capabilities,
-          root_dir = function(fname)
-            local pyproject = util.root_pattern("pyproject.toml")(fname)
-            local git_root = util.root_pattern(".git")(fname)
+          root_dir = function(bufnr, on_dir)
+            local fname = vim.api.nvim_buf_get_name(bufnr)
+            local pyproject = vim.fs.root(fname, "pyproject.toml")
+            local git_root = vim.fs.root(fname, ".git")
             if git_root and pyproject and git_root ~= pyproject then
               local root_pyproject = git_root .. "/pyproject.toml"
               local f = io.open(root_pyproject, "r")
@@ -68,14 +63,15 @@ return {
                 local content = f:read("*a")
                 f:close()
                 if content:find("uv.workspace") then
-                  return git_root
+                  on_dir(git_root)
+                  return
                 end
               end
             end
-            return pyproject
+            on_dir(pyproject)
           end,
-          on_new_config = function(config, root_dir)
-            local venv_python = root_dir .. "/.venv/bin/python"
+          before_init = function(_, config)
+            local venv_python = config.root_dir .. "/.venv/bin/python"
             if vim.uv.fs_stat(venv_python) then
               config.settings = vim.tbl_deep_extend("force", config.settings or {}, {
                 python = { pythonPath = venv_python }
@@ -83,25 +79,28 @@ return {
             end
           end,
         })
-        lspconfig.denols.setup({
+
+        vim.lsp.config('denols', {
           capabilities = capabilities,
           root_markers = {"deno.json", "deno.jsonc"},
-          root_dir = util.root_pattern("deno.json", "deno.jsonc"),
           init_options = true,
           lint = true
         })
-        lspconfig.ts_ls.setup({
+
+        vim.lsp.config('ts_ls', {
           capabilities = capabilities,
-          root_dir = function (filename, bufnr)
-            local denoRootDir = lspconfig.util.root_pattern("deno.json", "deno.json")(filename);
-            if denoRootDir then
-              return nil;
+          root_dir = function(bufnr, on_dir)
+            local fname = vim.api.nvim_buf_get_name(bufnr)
+            if vim.fs.root(fname, {"deno.json", "deno.jsonc"}) then
+              on_dir(nil)
+              return
             end
-            return lspconfig.util.root_pattern("package.json")(filename);
+            on_dir(vim.fs.root(fname, "package.json"))
           end,
-          -- root_dir = util.root_pattern("package.json"),
           single_file_support = false
         })
+
+        vim.lsp.enable(lsps)
       end
     }
   }
