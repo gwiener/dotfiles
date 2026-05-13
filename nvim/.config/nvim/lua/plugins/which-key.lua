@@ -19,6 +19,7 @@ return {
     spec = {
       { "<leader>d", group = "Debug" },
       { "<leader>f", group = "Find" },
+      { "<leader>g", group = "Git" },
       { "<leader>l", group = "LSP" },
       { "<leader>t", group = "Tree" },
       { "<leader>z", desc  = "Zoom in/out" }
