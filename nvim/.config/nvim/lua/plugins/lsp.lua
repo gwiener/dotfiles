@@ -70,12 +70,13 @@ return {
             end
             on_dir(pyproject)
           end,
-          before_init = function(_, config)
-            local venv_python = config.root_dir .. "/.venv/bin/python"
+          on_init = function(client)
+            local venv_python = client.config.root_dir .. "/.venv/bin/python"
             if vim.uv.fs_stat(venv_python) then
-              config.settings = vim.tbl_deep_extend("force", config.settings or {}, {
+              client.config.settings = vim.tbl_deep_extend("force", client.config.settings or {}, {
                 python = { pythonPath = venv_python }
               })
+              client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
             end
           end,
         })
