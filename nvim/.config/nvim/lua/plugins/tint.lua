@@ -25,7 +25,10 @@ return {
     vim.api.nvim_create_autocmd("ColorScheme", {
       callback = function() vim.schedule(fix_by_color_scheme) end,
     })
-    vim.schedule(fix_by_color_scheme)
+    vim.api.nvim_create_autocmd("VimEnter", {
+      once = true,
+      callback = function() vim.schedule(fix_by_color_scheme) end,
+    })
   end,
 }
 
