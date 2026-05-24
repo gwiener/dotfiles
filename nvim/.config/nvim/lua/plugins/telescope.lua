@@ -1,18 +1,33 @@
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = { "nvim-lua/plenary.nvim" },
-  opts = {
-    defaults = {
-      path_display = { "filename_first" },
-      layout_strategy = "flex",
-      layout_config = {
-        flex = {
-          flip_columns = 120,
-          flip_lines = 30,
+  opts = function()
+    local actions = require("telescope.actions")
+    local delete_buffer = actions.delete_buffer
+    return {
+      defaults = {
+        path_display = { "filename_first" },
+        layout_strategy = "flex",
+        layout_config = {
+          flex = {
+            flip_columns = 120,
+            flip_lines = 30,
+          },
         },
       },
-    },
-  },
+      pickers = {
+        buffers = {
+          mappings = {
+            i = { ["<C-d>"] = actions.delete_buffer },
+            n = {
+              ["<C-d>"] = delete_buffer,
+              ["dd"] = delete_buffer,
+            },
+          },
+        },
+      },
+    }
+  end,
   config = function(_, opts)
     require("telescope").setup(opts)
     local builtin = require("telescope.builtin")
