@@ -22,6 +22,7 @@ return {
       { "<leader>g", group = "Git" },
       { "<leader>l", group = "LSP" },
       { "<leader>t", group = "Tree" },
+      { "<leader>y", group = "Yank" },
       { "<leader>z", desc  = "Zoom in/out" }
     },
   },

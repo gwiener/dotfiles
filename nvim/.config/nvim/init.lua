@@ -22,6 +22,7 @@ vim.opt.rtp:prepend(lazypath)
 -- Plugin setup
 require("lazy").setup("plugins")
 require("git-keys")
+require("file-keys")
 
 -- Enable absolute line numbers
 vim.opt.number = true
