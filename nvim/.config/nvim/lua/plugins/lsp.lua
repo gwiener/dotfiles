@@ -52,6 +52,16 @@ return {
 
         vim.lsp.config('pyright', {
           capabilities = capabilities,
+          settings = {
+            python = {
+              analysis = {
+                autoImportCompletions = true,
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                indexing = true,
+              }
+            }
+          },
           root_dir = function(bufnr, on_dir)
             local fname = vim.api.nvim_buf_get_name(bufnr)
             local pyproject = vim.fs.root(fname, "pyproject.toml")
