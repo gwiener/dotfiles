@@ -16,11 +16,7 @@ local function onLsp(ev)
   map('gi', vim.lsp.buf.implementation, "Go to implementation")
   map('gr', vim.lsp.buf.references, "Go to references")
   map('K', vim.lsp.buf.hover, "Hover docs")
-  map('<leader>la', function()
-    vim.lsp.buf.code_action({
-      context = { diagnostics = vim.diagnostic.get(buf, { lnum = vim.fn.line('.') - 1 }) }
-    })
-  end, "Code action")
+  map('<leader>la', vim.lsp.buf.code_action, "code actions")
   map('<leader>lr', vim.lsp.buf.rename, "Rename symbol")
 
   vim.diagnostic.config({
@@ -32,7 +28,7 @@ end
 
 return {
   {
-    { "mason-org/mason.nvim", opts = {} },
+    { "mason-org/mason.nvim",          opts = {} },
     { "mason-org/mason-lspconfig.nvim" },
     {
       "neovim/nvim-lspconfig",
@@ -97,7 +93,7 @@ return {
 
         vim.lsp.config('denols', {
           capabilities = capabilities,
-          root_markers = {"deno.json", "deno.jsonc"},
+          root_markers = { "deno.json", "deno.jsonc" },
           init_options = true,
           lint = true
         })
@@ -106,7 +102,7 @@ return {
           capabilities = capabilities,
           root_dir = function(bufnr, on_dir)
             local fname = vim.api.nvim_buf_get_name(bufnr)
-            if vim.fs.root(fname, {"deno.json", "deno.jsonc"}) then
+            if vim.fs.root(fname, { "deno.json", "deno.jsonc" }) then
               on_dir(nil)
               return
             end
