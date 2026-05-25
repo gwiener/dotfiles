@@ -54,3 +54,9 @@ keybind = cmd+opt+ctrl+arrow_right=resize_split:right,10
 split-divider-color=gray
 unfocused-split-fill=gray
 unfocused-split-opacity = 0.85
+
+# Buffer capture to vim
+keybind = cmd+h=text:v\x20
+keybind = chain=write_screen_file:paste
+keybind = chain=text:\r
+
