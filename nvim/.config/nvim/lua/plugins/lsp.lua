@@ -16,7 +16,10 @@ local function onLsp(ev)
   map('gi', vim.lsp.buf.implementation, "Go to implementation")
   map('gr', vim.lsp.buf.references, "Go to references")
   map('K', vim.lsp.buf.hover, "Hover docs")
-  map('<leader>la', vim.lsp.buf.code_action, "code actions")
+  map('<leader>la', vim.lsp.buf.code_action, "Code actions")
+  map('<leader>lf', function()
+    require("conform").format({ formatters = { "ruff_fix" } })
+  end, "Ruff fix")
   map('<leader>lr', vim.lsp.buf.rename, "Rename symbol")
 
   vim.diagnostic.config({
