@@ -2,7 +2,7 @@ local lsps = {
   "lua_ls",
   "ts_ls",
   "denols",
-  "pyright"
+  "basedpyright"
 }
 
 local function onLsp(ev)
@@ -16,7 +16,11 @@ local function onLsp(ev)
   map('gi', vim.lsp.buf.implementation, "Go to implementation")
   map('gr', vim.lsp.buf.references, "Go to references")
   map('K', vim.lsp.buf.hover, "Hover docs")
-  map('<leader>la', vim.lsp.buf.code_action, "Code action")
+  map('<leader>la', function()
+    vim.lsp.buf.code_action({
+      context = { diagnostics = vim.diagnostic.get(buf, { lnum = vim.fn.line('.') - 1 }) }
+    })
+  end, "Code action")
   map('<leader>lr', vim.lsp.buf.rename, "Rename symbol")
 
   vim.diagnostic.config({
@@ -50,7 +54,7 @@ return {
           },
         })
 
-        vim.lsp.config('pyright', {
+        vim.lsp.config('basedpyright', {
           capabilities = capabilities,
           settings = {
             python = {
