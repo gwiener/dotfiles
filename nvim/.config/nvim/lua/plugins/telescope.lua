@@ -16,6 +16,9 @@ return {
         },
       },
       pickers = {
+        lsp_document_symbols = {
+          symbols = { "class", "function", "method", "constant", "constructor", "interface", "struct", "enum" },
+        },
         buffers = {
           mappings = {
             i = { ["<C-d>"] = actions.delete_buffer },
