@@ -2,7 +2,8 @@ local lsps = {
   "lua_ls",
   "ts_ls",
   "denols",
-  "basedpyright"
+  "basedpyright",
+  "svelte"
 }
 
 local function onLsp(ev)
