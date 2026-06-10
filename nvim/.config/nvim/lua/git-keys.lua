@@ -13,7 +13,8 @@ map('<leader>gb', telescope_builtin.git_branches, 'Git branches')
 map('<leader>gd', '<cmd>DiffviewOpen<CR>', 'Git diff view')
 
 map('<leader>gp', gitsigns.preview_hunk_inline,                        'Preview hunk (inline)')
-map('<leader>gB', function() gitsigns.blame_line({ full = true }) end, 'Blame line')
+map('<leader>gB', function() gitsigns.blame_line({ full = true }) end, 'Blame line (full)')
+map('<leader>gl', function() gitsigns.blame_line() end,              'Blame line (summary)')
 
 map(']c', function()
   if vim.wo.diff then
