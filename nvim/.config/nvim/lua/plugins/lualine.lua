@@ -13,6 +13,16 @@ return {
     "yavorski/lualine-macro-recording.nvim"
   },
   opts = {
+    inactive_sections = {
+      lualine_c = {
+        {
+          'filename',
+          file_status = true,
+          path = 1,
+        },
+      },
+      lualine_x = { 'location' },
+    },
     sections = {
       lualine_b = {
         -- Configuration for the 'filename' component
