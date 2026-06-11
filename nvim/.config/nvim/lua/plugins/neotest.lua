@@ -32,6 +32,11 @@ return {
             stop       = "q",
           },
         },
+        discovery = {
+          -- limit parallel discovery to avoid "Too many open files" (EMFILE)" on large repos
+          concurrent = 4,
+          enable = true
+        }
       })
 
       local map = function(keys, fn, desc)
