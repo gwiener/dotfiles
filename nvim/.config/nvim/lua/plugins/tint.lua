@@ -17,7 +17,11 @@ return {
         tint = vim.o.background == "dark" and 15 or -15,
         saturation = 0.6,
         tint_background_colors = true,
-        highlight_ignore_patterns = { "WinSeparator", "StatusLine", "lualine*" }
+        highlight_ignore_patterns = { "WinSeparator", "StatusLine", "lualine*" },
+        focus_change_events = {
+          focus   = { "WinEnter", "FocusGained" },
+          unfocus = { "WinLeave", "FocusLost" },
+        },
       })
       tint.refresh()
     end
@@ -31,4 +35,3 @@ return {
     })
   end,
 }
-
