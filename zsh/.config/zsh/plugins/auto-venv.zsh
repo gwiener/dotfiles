@@ -20,3 +20,4 @@ auto_activate_venv() {
   fi
 }
 chpwd_functions+=(auto_activate_venv)
+auto_activate_venv
