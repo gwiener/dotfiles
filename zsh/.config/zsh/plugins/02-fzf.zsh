@@ -2,6 +2,9 @@ local fzf_ignore='--no-ignore --hidden --follow --exclude .git --exclude .venv -
 
 source <(fzf --zsh)
 
+# --color=16 uses the 16 ANSI colors from the terminal palette (Ghostty's
+# GitHub theme) instead of fzf's fixed default scheme — follows light/dark.
+export FZF_DEFAULT_OPTS="--color=16"
 export FZF_DEFAULT_COMMAND="fd --type f --strip-cwd-prefix ${fzf_ignore}"
 export FZF_CTRL_T_COMMAND="fd --type f --strip-cwd-prefix ${fzf_ignore}"
 
