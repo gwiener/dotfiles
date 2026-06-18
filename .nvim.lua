@@ -17,5 +17,9 @@ require("telescope").setup({
   pickers = {
     find_files = { hidden = true },
     live_grep = { additional_args = { "--hidden" } },
-  }
+  },
+  extensions = {
+    live_grep_args = { additional_args = { "--hidden" } },
+  },
 })
+require("telescope").load_extension("live_grep_args")

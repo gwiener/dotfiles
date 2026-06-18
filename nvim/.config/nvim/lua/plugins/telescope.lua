@@ -1,6 +1,9 @@
 return {
   "nvim-telescope/telescope.nvim",
-  dependencies = { "nvim-lua/plenary.nvim" },
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "nvim-telescope/telescope-live-grep-args.nvim",
+  },
   opts = function()
     local actions = require("telescope.actions")
     local delete_buffer = actions.delete_buffer
@@ -33,10 +36,12 @@ return {
   end,
   config = function(_, opts)
     require("telescope").setup(opts)
+    require("telescope").load_extension("live_grep_args")
     local builtin = require("telescope.builtin")
+    local lga = require("telescope").extensions.live_grep_args
     vim.keymap.set('n', '<leader>ff', builtin.git_files, { desc = "Find file (git)" })
     vim.keymap.set('n', '<leader>fF', builtin.find_files, { desc = "Find file (all)" })
-    vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = "Find by grep" })
+    vim.keymap.set('n', '<leader>fg', lga.live_grep_args, { desc = "Find by grep" })
     vim.keymap.set('n', '<leader>fs', builtin.lsp_document_symbols, { desc = "Find symbol (file)" })
     vim.keymap.set('n', '<leader>fS', builtin.lsp_dynamic_workspace_symbols, { desc = "Find symbol (workspace)" })
     vim.keymap.set('n', '<leader>fr', builtin.lsp_references, { desc = "Find references" })
