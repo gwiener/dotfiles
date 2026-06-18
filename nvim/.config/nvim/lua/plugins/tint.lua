@@ -23,7 +23,7 @@ return {
           unfocus = { "WinLeave", "FocusLost" },
         },
       })
-      tint.refresh()
+      pcall(tint.refresh)
     end
 
     vim.api.nvim_create_autocmd("ColorScheme", {
